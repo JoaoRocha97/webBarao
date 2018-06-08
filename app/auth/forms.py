@@ -6,33 +6,22 @@ from ..models import Employee
 
 
 class RegistrationForm(FlaskForm):
-    """
-    Form for users to create new account
-    """
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[
+    first_name = StringField('Nome', validators=[DataRequired()])
+    last_name = StringField('Sobrenome', validators=[DataRequired()])
+    password = PasswordField('Senha', validators=[
                                         DataRequired(),
                                         EqualTo('confirm_password')
                                         ])
-    confirm_password = PasswordField('Confirm Password')
-    submit = SubmitField('Register')
+    confirm_password = PasswordField('Confirmar Senha')
+    submit = SubmitField('Cadastrar')
 
     def validate_email(self, field):
         if Employee.query.filter_by(email=field.data).first():
-            raise ValidationError('Email is already in use.')
-
-    def validate_username(self, field):
-        if Employee.query.filter_by(username=field.data).first():
-            raise ValidationError('Username is already in use.')
-
+            raise ValidationError('Usuario já existe.')
 
 class LoginForm(FlaskForm):
-    """
-    Form for users to login
-    """
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Login')
