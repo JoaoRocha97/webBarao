@@ -8,20 +8,20 @@ from ..models import Employee
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
-    first_name = StringField('Nome', validators=[DataRequired()])
-    last_name = StringField('Sobrenome', validators=[DataRequired()])
-    password = PasswordField('Senha', validators=[
+    nome = StringField('Nome', validators=[DataRequired()])
+    sobrenome = StringField('Sobrenome', validators=[DataRequired()])
+    senha = PasswordField('Senha', validators=[
                                         DataRequired(),
                                         EqualTo('confirm_password')
                                         ])
     confirm_password = PasswordField('Confirmar Senha')
     submit = SubmitField('Cadastrar')
 
-    def validate_email(self, field):
-        if Employee.query.filter_by(email=field.data).first():
+    def validar_usuario(self, field):
+        if Employee.query.filter_by(username=field.data).first():
             raise ValidationError('Usuario já existe.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Senha', validators=[DataRequired()])
+    senha = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Login')
